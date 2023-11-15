@@ -1,0 +1,12 @@
+diff --git a/ncat/ncat_core.c b/ncat/ncat_core.c
+index 21eca9e..c45a04e 100644
+--- a/ncat/ncat_core.c
++++ b/ncat/ncat_core.c
+@@ -287,6 +287,7 @@ int resolve(const char *hostname, unsigned short port,
+     int result;
+ 
+     flags = 0;
++    flags |= AI_ADDRCONFIG;
+     if (o.nodns)
+         flags |= AI_NUMERICHOST;
+ 
