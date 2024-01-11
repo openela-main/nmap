@@ -5,9 +5,9 @@
 
 Name: nmap
 Epoch: 3
-Version: 7.91
+Version: 7.92
 #global prerelease TEST5
-Release: 12%{?dist}
+Release: 1%{?dist}
 Summary: Network exploration tool and security scanner
 URL: http://nmap.org/
 # Uses combination of licenses based on GPL license, but with extra modification
@@ -29,15 +29,7 @@ Patch2: nmap-4.52-noms.patch
 Patch3: ncat_reg_stdin.diff
 Patch4: nmap-6.25-displayerror.patch
 # https://github.com/nmap/nmap/pull/2247
-Patch7: nmap_resolve_config.patch
-## https://github.com/nmap/nmap/commit/28bfe0dfd26dbc4e9917db9ad5457ab496769d24.patch
-Patch9: nmap-safe_fd_functions.patch
-
-## https://github.com/nmap/nmap/commit/f6b40614e4a8131394792d590965f8af3c635323.patch
-Patch10: nmap-unix_crash.patch
-
-# https://github.com/nmap/nmap/commit/169d7e5a922ef8e63b51ee2bdf4fd4ad60ed2689.patch
-Patch11: ncat-proxy.patch
+Patch5: nmap_resolve_config.patch
 
 BuildRequires: automake make
 BuildRequires: autoconf
@@ -160,6 +152,11 @@ fi
 %{_mandir}/man1/ncat.1.gz
 
 %changelog
+* Tue Mar 21 2023 Martin Osvald <mosvald@redhat.com> - 3:7.92-1
+- New version 7.92
+- Resolves: #2180330 - Rebase nmap for TLS v1.3 support
+- Resolves: #2164833 - Remove duplicate tests
+
 * Tue Jan 10 2023 Martin Osvald <mosvald@redhat.com> - 3:7.91-12
 - Enhanced TMT testing for centos-stream (#2159206)
 
