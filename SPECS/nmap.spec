@@ -11,9 +11,9 @@
 Summary: Network exploration tool and security scanner
 Name: nmap
 Epoch: 2
-Version: 7.70
+Version: 7.92
 #global prerelease TEST5
-Release: 8%{?dist}
+Release: 1%{?dist}
 # Uses combination of licenses based on GPL license, but with extra modification
 # so it got its own license tag rhbz#1055861
 License: Nmap
@@ -33,15 +33,11 @@ Patch1: nmap-4.03-mktemp.patch
 Patch2: nmap-4.52-noms.patch
 
 # upstream provided patch for rhbz#845005, not yet in upstream repository
-Patch5: ncat_reg_stdin.diff
-Patch6: nmap-6.25-displayerror.patch
-Patch7: nmap-safe_fd_functions.patch
+Patch3: ncat_reg_stdin.diff
+Patch4: nmap-6.25-displayerror.patch
 
 # https://github.com/nmap/nmap/pull/2247
-Patch8: nmap_resolve_config.patch
-
-# https://bugzilla.redhat.com/show_bug.cgi?id=2120294
-Patch9: nmap-ipv6_literal_proxy.patch
+Patch5: nmap_resolve_config.patch
 
 URL: http://nmap.org/
 BuildRequires: gcc-c++
@@ -229,7 +225,7 @@ fi
 
 
 %files -f nmap.lang
-%doc COPYING*
+%doc LICENSE
 %doc docs/README
 %doc docs/nmap.usage.txt
 %{_bindir}/nmap
@@ -239,7 +235,7 @@ fi
 %{_datadir}/nmap
 
 %files ncat 
-%doc COPYING ncat/docs/AUTHORS ncat/docs/README ncat/docs/THANKS ncat/docs/examples
+%doc LICENSE ncat/docs/AUTHORS ncat/docs/README ncat/docs/THANKS ncat/docs/examples
 %if 0%{?fedora} && 0%{?fedora}  >= 0
 %{_bindir}/nc
 %{_mandir}/man1/nc.1.gz
@@ -275,6 +271,11 @@ fi
 %endif
 
 %changelog
+* Tue Mar 21 2023 Martin Osvald <mosvald@redhat.com> - 2:7.92-1
+- New version 7.92
+- Resolves: #2166178 - Nmap much slower after libpcap fix
+- Resolves: #2169766 - Rebase nmap for TLS v1.3 support
+
 * Tue Aug 23 2022 Martin Osvald <mosvald@redhat.com> - 2:7.70-8
 - Resolves: #2120294 - wrong connect format
 
