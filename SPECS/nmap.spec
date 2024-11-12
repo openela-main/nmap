@@ -7,7 +7,7 @@ Name: nmap
 Epoch: 3
 Version: 7.92
 #global prerelease TEST5
-Release: 1%{?dist}
+Release: 3%{?dist}
 Summary: Network exploration tool and security scanner
 URL: http://nmap.org/
 # Uses combination of licenses based on GPL license, but with extra modification
@@ -30,6 +30,8 @@ Patch3: ncat_reg_stdin.diff
 Patch4: nmap-6.25-displayerror.patch
 # https://github.com/nmap/nmap/pull/2247
 Patch5: nmap_resolve_config.patch
+# https://github.com/nmap/nmap/pull/2724
+Patch6: nmap-ems-ssl-enum-ciphers.patch
 
 BuildRequires: automake make
 BuildRequires: autoconf
@@ -47,8 +49,8 @@ BuildRequires: zlib-devel
 BuildRequires: gnupg2
 Requires: %{name}-ncat = %{epoch}:%{version}-%{release}
 
-Obsoletes: nmap-frontend
-Obsoletes: nmap-ndiff
+Obsoletes: nmap-frontend < 7.70-1
+Obsoletes: nmap-ndiff < 7.70-1
 
 %define pixmap_srcdir zenmap/share/pixmaps
 
@@ -152,6 +154,12 @@ fi
 %{_mandir}/man1/ncat.1.gz
 
 %changelog
+* Wed Jul 10 2024 František Hrdina <fhrdina@redhat.com> - 3:7.92-3
+- Update fmf plans and gating
+
+* Tue Jul 09 2024 Martin Osvald <mosvald@redhat.com> - 3:7.92-2
+- Support EMS in ssl-enum-ciphers
+
 * Tue Mar 21 2023 Martin Osvald <mosvald@redhat.com> - 3:7.92-1
 - New version 7.92
 - Resolves: #2180330 - Rebase nmap for TLS v1.3 support
