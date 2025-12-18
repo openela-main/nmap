@@ -13,7 +13,7 @@ Name: nmap
 Epoch: 2
 Version: 7.92
 #global prerelease TEST5
-Release: 1%{?dist}
+Release: 2%{?dist}
 # Uses combination of licenses based on GPL license, but with extra modification
 # so it got its own license tag rhbz#1055861
 License: Nmap
@@ -38,6 +38,11 @@ Patch4: nmap-6.25-displayerror.patch
 
 # https://github.com/nmap/nmap/pull/2247
 Patch5: nmap_resolve_config.patch
+
+# https://issues.redhat.com/browse/RHEL-40632
+# https://github.com/nmap/nmap/commit/5f6bc6998351303b0149c89e215bdb778466c88b
+# https://github.com/nmap/nmap/commit/5b52e7a3f21ba256541fe24d5b7ccff8b700872b
+Patch6: account-for-VLAN-header-in-pcap-packets.patch
 
 URL: http://nmap.org/
 BuildRequires: gcc-c++
@@ -271,6 +276,9 @@ fi
 %endif
 
 %changelog
+* Mon Nov 24 2025 Martin Osvald <mosvald@redhat.com> - 2:7.92-2
+- Resolves: RHEL-40632 - Nmap scans fail with enic driver
+
 * Tue Mar 21 2023 Martin Osvald <mosvald@redhat.com> - 2:7.92-1
 - New version 7.92
 - Resolves: #2166178 - Nmap much slower after libpcap fix
