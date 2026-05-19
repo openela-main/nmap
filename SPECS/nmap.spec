@@ -7,7 +7,7 @@ Name: nmap
 Epoch: 3
 Version: 7.92
 #global prerelease TEST5
-Release: 3%{?dist}
+Release: 5%{?dist}
 Summary: Network exploration tool and security scanner
 URL: http://nmap.org/
 # Uses combination of licenses based on GPL license, but with extra modification
@@ -32,6 +32,10 @@ Patch4: nmap-6.25-displayerror.patch
 Patch5: nmap_resolve_config.patch
 # https://github.com/nmap/nmap/pull/2724
 Patch6: nmap-ems-ssl-enum-ciphers.patch
+# https://issues.redhat.com/browse/RHEL-40632
+# https://github.com/nmap/nmap/commit/5f6bc6998351303b0149c89e215bdb778466c88b
+# https://github.com/nmap/nmap/commit/5b52e7a3f21ba256541fe24d5b7ccff8b700872b
+Patch7: account-for-VLAN-header-in-pcap-packets.patch
 
 BuildRequires: automake make
 BuildRequires: autoconf
@@ -127,6 +131,8 @@ touch %{buildroot}%{_bindir}/nc
 %find_lang nmap --with-man
 
 %post ncat
+# Remove obsolete alternatives left behind after leapp upgrade from RHEL8 to RHEL9
+%{_sbindir}/update-alternatives --remove nmap %{_bindir}/ncat || :
 %{_sbindir}/alternatives --install %{_bindir}/nc nc %{_bindir}/ncat 10 \
   --slave %{_mandir}/man1/nc.1.gz nc-man %{_mandir}/man1/ncat.1.gz
 
@@ -154,6 +160,13 @@ fi
 %{_mandir}/man1/ncat.1.gz
 
 %changelog
+* Tue Jan 06 2026 Martin Osvald <mosvald@redhat.com> - 3:7.92-5
+- Remove obsolete alternatives left behind after leapp upgrade from RHEL8 to RHEL9
+  Resolves: RHEL-101161
+
+* Tue Nov 25 2025 Martin Osvald <mosvald@redhat.com> - 3:7.92-4
+- Resolves: RHEL-130816 - Nmap scans fail with enic driver
+
 * Wed Jul 10 2024 František Hrdina <fhrdina@redhat.com> - 3:7.92-3
 - Update fmf plans and gating
 
